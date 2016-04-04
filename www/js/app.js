@@ -49,6 +49,84 @@ document.addEventListener("app.Ready", onAppReady, false) ;
 // NOTE: change "dev.LOG" in "init-dev.js" to "true" to enable some console.log
 // messages that can help you debug Cordova app initialization issues.
 
-var app = function(){
-	var user,init;
-}
+        $(document).ready(function(){
+
+            $("#main").bind("panelbeforeload", startApp);
+            // setup signin and signup button events
+            $("#login").on("click", function(){
+                signIn();
+            });
+
+            $("#register").on("click", function(){
+                signUp();
+            });
+
+        });
+
+        function signIn(){
+
+
+            // SIGNIN SERVER CALL CODE GOES HERE
+
+            valid_login = false;
+
+            if(valid_login){
+                $.afui.loadContent("#main", null, null, "fade");
+            }
+            else
+            {
+                //Example use of the error toast api
+                var opts={
+                    message:"Invalid Login Combination",
+                    position:"tc",
+                    delay:2000,
+                    autoClose:true,
+                    type:"error"
+                };
+                $.afui.toast(opts);
+            }
+        }
+
+        function signUp(){
+
+            //example client side validation
+            if ($("#password").val() === $("#confirmpassword").val())
+            {
+                // SIGNUP SERVER CALL CODE GOES HERE
+
+                //render main view
+                $.afui.loadContent("#main", null, null, "fade");
+
+                //Example use of the success toast
+                var opts={
+                    message:"Account Created",
+                    position:"tc",
+                    delay:2000,
+                    autoClose:true,
+                    type:"success"
+                };
+                $.afui.toast(opts);
+
+            }
+            else
+            {
+                //Example use of the error toast
+                var opts={
+                    message:"Passwords Don't Match",
+                    position:"tc",
+                    delay:2000,
+                    autoClose:true,
+                    type:"error"
+                };
+                $.afui.toast(opts);
+            }
+
+
+        }
+
+        function startApp(){
+            // clears all back button history
+            $.afui.clearHistory();
+
+            // your app code here
+        }
