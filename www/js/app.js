@@ -49,3 +49,6 @@ document.addEventListener("app.Ready", onAppReady, false) ;
 // NOTE: change "dev.LOG" in "init-dev.js" to "true" to enable some console.log
 // messages that can help you debug Cordova app initialization issues.
 
+var app = function(){
+	var user,init;
+}

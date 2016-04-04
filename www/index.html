@@ -59,19 +59,19 @@
     <div class="view" id="mainview">
         <header>
             <h1>What</h1>
+            <a class="menuButton" data-left-menu="leftMenu" data-transition="reveal"></a>
         </header>
         <div class="pages">
-            <div data-left-drawer="left" class="panel" id="main" data-title="Main" data-selected="true">
+            <div data-left-drawer="leftMenu" class="panel" id="main" data-title="首页" data-selected="true">
             </div>
         </div>
         <footer>
-            <a href="#main" class="icon home" data-transition="slide">Main</a>
-
+            <a href="#main" class="icon home" data-transition="slide">首页</a>
             <a href="#plugins" class="icon html5" data-transition="slide">Plugins</a>
             <a href="#touchevents" class="icon trash" data-transition="up-reveal">Touch Events</a>
-            <a href="/foo/bar" class="icon trash"  data-transition="slide">Foobar</a>
+            <a href="#user" class="icon user"  data-transition="slide">我的</a>
         </footer>
-        <nav id="left"  style="z-index:5" data-include="appframework/partials/leftnav.html">
+        <nav id="leftMenu"  style="z-index:5" data-include="appframework/partials/leftnav.html">
 
         </nav>        
     </div>
