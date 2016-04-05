@@ -1,4 +1,4 @@
-/*! intel-appframework - v3.0.0 - 2015-11-03 */
+/*! intel-appframework - v3.0.0 - 2016-03-26 */
 
 /**
  * af.shim.js
@@ -929,19 +929,20 @@ window.af=window.jq=jQuery;
          * @param {string=} text
          * @title $.afui.showMask(text);
          */
-        showMask: function(text) {
+        showMask: function(text, value) {
             if (!text) text = this.loadingText || "";
+            if (!value || typeof value !== "number") timeout = 15000;
             $.query("#afui_mask>h1").html(text);
             $.query("#afui_mask").show();
             this.showingMask = true;
 
             var self = this;
-            //set another timeout to auto-hide the mask if something goes wrong after 15 secs
+            //set another timeout to auto-hide the mask if something goes wrong, default is 15 sec
             setTimeout(function() {
                 if(self.showingMask) {
                     self.hideMask();
                 }
-            }, 15000);
+            }, value);
         },
         /**
          * Hide the loading mask
@@ -985,7 +986,7 @@ window.af=window.jq=jQuery;
             if (this.doingTransition) {
                 return;
             }
-            anchor = anchor || null; //Hack to allow passing in no anchor
+            anchor = anchor || document.createElement("a"); //Hack to allow passing in no anchor
             if (target.length === 0) return;
             if(target.indexOf("#")!==-1){
                 this.loadDiv(target, newView, back, transition,anchor);
@@ -1172,11 +1173,6 @@ window.af=window.jq=jQuery;
                 //Add the back button if it's not there
                 if(hdr.find(".backButton").length===1) return;
                 hdr.prepend("<a class='backButton back'>" + this.backButtonText + "</a>");
-                //Fix device click no response issue
-                hdr.on("click", ".backButton", function() {
-                    if(this.useInternalRouting)
-                        this.goBack(this);
-                });
             }
             else {
                 hdr.find(".backButton").remove();
@@ -1283,11 +1279,13 @@ window.af=window.jq=jQuery;
                     if(!back){
                         this.classList.remove("active");
                         //If 'this' is view, then find active panel and remove active from it
-                        var activePanel = $(this).find(".active").get(0);
-                        if (undefined !== activePanel) {
-                            activePanel.classList.remove("active");
+                        var tmpActive = $(this).find(".active").get(0);
+                        if (undefined !== tmpActive) {
+                            $(tmpActive).trigger("panelunload", [back]);
+                            tmpActive.classList.remove("active");
                         }
-                        $(this).trigger("panelunload", [back]);
+                        //Below trigger will be called when 'to animation' done
+                        //$(this).trigger("panelunload", [back]);
                     }
                     else{
                         this.classList.add("active");
@@ -1304,6 +1302,7 @@ window.af=window.jq=jQuery;
             to.end(function(){
 
                 that.doingTransition=false;
+                var tmpActive;
                 if(!back){
                     this.classList.add("active");
                     $(this).trigger("panelload", [back]);
@@ -1311,12 +1310,14 @@ window.af=window.jq=jQuery;
 
                     //Previous panel needs to be hidden after animation
                     //Fixes #850, #860, #873
-                    var tmpActive = $(hide).find(".active").get(0);
+                    tmpActive = $(hide).find(".active").get(0);
                     if (undefined !== tmpActive) {
+                        $(tmpActive).trigger("panelunload", [back]);
                         tmpActive.classList.remove("active");
 
                     }
-                    $(hide).trigger("panelunload", [back]);
+                    //fix #903
+                    //$(hide).trigger("panelunload", [back]);
                 }
                 else{
                     if(noTrans){
@@ -1324,9 +1325,10 @@ window.af=window.jq=jQuery;
                     }
                     this.classList.remove("active");
                     //If 'hide' is view, then find active panel and remove active from it
-                    var activePanel = $(this).find(".active").get(0);
-                    if (undefined !== activePanel) {
-                        activePanel.classList.remove("active");
+                    tmpActive = $(this).find(".active").get(0);
+                    if (undefined !== tmpActive) {
+                        $(tmpActive).trigger("panelunload", [back]);
+                        tmpActive.classList.remove("active");
                     }
                     $(hide).trigger("panelload", [back]);
                     $(hide).addClass("active");
