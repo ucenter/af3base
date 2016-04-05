@@ -49,84 +49,81 @@ document.addEventListener("app.Ready", onAppReady, false) ;
 // NOTE: change "dev.LOG" in "init-dev.js" to "true" to enable some console.log
 // messages that can help you debug Cordova app initialization issues.
 
-        $(document).ready(function(){
+// Bmob APPID:c5e280725d40401e2dec9f7dc6f21cb1
+//      restAPI:a0c52975b5460baef3a13c0625b9bb3b
 
-            $("#main").bind("panelbeforeload", startApp);
-            // setup signin and signup button events
-            $("#login").on("click", function(){
-                signIn();
-            });
 
-            $("#register").on("click", function(){
-                signUp();
-            });
+/*
+apicloud 
+    ID: A6974082591496
+    appKey: 2E3474B8-52B8-5AC9-813E-1125753EB2FE
+    https://d.apicloud.com/mcm/api/
+*/
 
+
+var now = Date.now();
+var appKey = SHA1("A6974082591496"+"UZ"+"2E3474B8-52B8-5AC9-813E-1125753EB2FE"+"UZ"+now)+"."+now;
+var module = (function(){
+    var baseUrl = 'https://d.apicloud.com/mcm/api/';
+})()
+
+
+
+$(document).ready(function(){
+    $("#main").bind("panelbeforeload", startApp);
+    // setup signin and signup button events
+    $("#login").on("click", function(){
+        signIn();
+    });
+
+    $("#register").on("click", function(){
+        signUp();
+    });
+
+});
+
+function signIn(){
+    // SIGNIN SERVER CALL CODE GOES HERE
+    valid_login = false;
+    if(valid_login){
+        $.afui.loadContent("#main", null, null, "fade");
+    }else{
+        //Example use of the error toast api
+        $.afui.toast({
+            message:"Invalid Login Combination",
+            position:"tc",
+            delay:2000,
+            autoClose:true,
+            type:"error"
         });
+    }
+}
 
-        function signIn(){
+function signUp(){
+    //example client side validation
+    if ($("#password").val() === $("#confirmpassword").val()){
+        $.afui.loadContent("#main", null, null, "fade");
+        $.afui.toast({
+            message:"Account Created",
+            position:"tc",
+            delay:2000,
+            autoClose:true,
+            type:"success"
+        });
+    }else{
+        $.afui.toast({
+            message:"Passwords Don't Match",
+            position:"tc",
+            delay:2000,
+            autoClose:true,
+            type:"error"
+        });
+    }
+}
 
+function startApp(){
+    // clears all back button history
+    $.afui.clearHistory();
 
-            // SIGNIN SERVER CALL CODE GOES HERE
-
-            valid_login = false;
-
-            if(valid_login){
-                $.afui.loadContent("#main", null, null, "fade");
-            }
-            else
-            {
-                //Example use of the error toast api
-                var opts={
-                    message:"Invalid Login Combination",
-                    position:"tc",
-                    delay:2000,
-                    autoClose:true,
-                    type:"error"
-                };
-                $.afui.toast(opts);
-            }
-        }
-
-        function signUp(){
-
-            //example client side validation
-            if ($("#password").val() === $("#confirmpassword").val())
-            {
-                // SIGNUP SERVER CALL CODE GOES HERE
-
-                //render main view
-                $.afui.loadContent("#main", null, null, "fade");
-
-                //Example use of the success toast
-                var opts={
-                    message:"Account Created",
-                    position:"tc",
-                    delay:2000,
-                    autoClose:true,
-                    type:"success"
-                };
-                $.afui.toast(opts);
-
-            }
-            else
-            {
-                //Example use of the error toast
-                var opts={
-                    message:"Passwords Don't Match",
-                    position:"tc",
-                    delay:2000,
-                    autoClose:true,
-                    type:"error"
-                };
-                $.afui.toast(opts);
-            }
-
-
-        }
-
-        function startApp(){
-            // clears all back button history
-            $.afui.clearHistory();
-
-            // your app code here
-        }
+    // your app code here
+}
