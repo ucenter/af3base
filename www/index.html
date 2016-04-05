@@ -21,7 +21,6 @@
     <script src="appframework/build/jquery.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/fastclick.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/src/af.shim.js"></script>
-    <script src="js/sha1.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/src/af.ui.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/src/af.actionsheet.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/src/af.animation.js"></script>
@@ -37,6 +36,7 @@
     $.afui.useOSThemes=false;
     $.afui.loadDefaultHash=true;
     $.afui.autoLaunch=false;
+    $.afui.isAjaxApp=true;
     //By default, it is set to true and you're app will run right away.  We set it to false to show a splashscreen
     /* This function runs when the content is loaded.*/
      $(document).ready(function(){
@@ -45,6 +45,7 @@
         },100);
     });    
     </script>
+    <script src="js/sha1.js"></script>
     <!-- recommended location of your JavaScript code relative to other JS files -->
     <script src="js/app.js"></script>           
 </head>
@@ -67,6 +68,7 @@
                 <ul class="list inset">
                     <li><a href="#login" class="icon user" style="text-align:center">Login</a></li>
                     <li><a href="#register" class="icon pencil" style="text-align:center">Register</a></li>
+                    <li><a href="appframework/ajax.html" class="icon user">ajax</a></li>
                 </ul>                
             </div>
 
