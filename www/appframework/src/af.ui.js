@@ -617,20 +617,19 @@
          * @param {string=} text
          * @title $.afui.showMask(text);
          */
-        showMask: function(text, value) {
+        showMask: function(text) {
             if (!text) text = this.loadingText || "";
-            if (!value || typeof value !== "number") timeout = 15000;
             $.query("#afui_mask>h1").html(text);
             $.query("#afui_mask").show();
             this.showingMask = true;
 
             var self = this;
-            //set another timeout to auto-hide the mask if something goes wrong, default is 15 sec
+            //set another timeout to auto-hide the mask if something goes wrong after 15 secs
             setTimeout(function() {
                 if(self.showingMask) {
                     self.hideMask();
                 }
-            }, value);
+            }, 15000);
         },
         /**
          * Hide the loading mask
@@ -674,7 +673,7 @@
             if (this.doingTransition) {
                 return;
             }
-            anchor = anchor || document.createElement("a"); //Hack to allow passing in no anchor
+            anchor = anchor || null; //Hack to allow passing in no anchor
             if (target.length === 0) return;
             if(target.indexOf("#")!==-1){
                 this.loadDiv(target, newView, back, transition,anchor);
@@ -990,7 +989,6 @@
             to.end(function(){
 
                 that.doingTransition=false;
-                var tmpActive;
                 if(!back){
                     this.classList.add("active");
                     $(this).trigger("panelload", [back]);
@@ -998,14 +996,13 @@
 
                     //Previous panel needs to be hidden after animation
                     //Fixes #850, #860, #873
-                    tmpActive = $(hide).find(".active").get(0);
+                    var tmpActive = $(hide).find(".active").get(0);
                     if (undefined !== tmpActive) {
                         $(tmpActive).trigger("panelunload", [back]);
                         tmpActive.classList.remove("active");
 
                     }
-                    //fix #903
-                    //$(hide).trigger("panelunload", [back]);
+                    $(hide).trigger("panelunload", [back]);
                 }
                 else{
                     if(noTrans){
@@ -1013,7 +1010,7 @@
                     }
                     this.classList.remove("active");
                     //If 'hide' is view, then find active panel and remove active from it
-                    tmpActive = $(this).find(".active").get(0);
+                    var tmpActive = $(this).find(".active").get(0);
                     if (undefined !== tmpActive) {
                         $(tmpActive).trigger("panelunload", [back]);
                         tmpActive.classList.remove("active");

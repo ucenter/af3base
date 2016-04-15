@@ -60,12 +60,120 @@ apicloud
     https://d.apicloud.com/mcm/api/
 */
 
+/*
+    client_id:1129644
+    client_secret:574bd5aa828794b9da99af5a09ee75cf
 
+    重要  http://www.tngou.net/api/oauth2/reg 用户注册
+    重要  http://www.tngou.net/api/oauth2/login   用户登录
+    重要  http://www.tngou.net/api/oauth2/bind    第三方绑定登录
+    一般  http://www.tngou.net/api/oauth2/authorize   authorize授权登录页面
+    一般  http://www.tngou.net/api/oauth2/accesstoken accesstoken 取得授权AccessToken
+    一般  http://www.tngou.net/api/oauth2/open    第三方登录认证
+
+*/
+
+
+//apicloud 认证
 var now = Date.now();
 var appKey = SHA1("A6974082591496"+"UZ"+"2E3474B8-52B8-5AC9-813E-1125753EB2FE"+"UZ"+now)+"."+now;
-var module = (function(){
-    var baseUrl = 'https://d.apicloud.com/mcm/api/';
-})()
+var baseUrl = 'https://d.apicloud.com/mcm/api/';
+function toUser(){
+
+    $.ajax({
+        url: baseUrl+'batch',
+        type: 'POST',
+        cache: false,
+        dataType: 'json',
+        headers:{
+            'X-APICloud-AppId':'A6974082591496',
+            'X-APICloud-AppKey':appKey
+        },
+        data: {
+            'requests':[
+                {
+                    'method': 'POST',
+                    'path': baseUrl+'user2000w',
+                    'body':{
+"Name": "吕荣宇",
+"CtfTp": "ID",
+"CtfId": "110105198302020840",
+"Gender": "0",
+"Birthday": "19830202",
+"Address": "北京市朝阳区松榆东里38楼801号",
+"Mobile": "2147483647",
+"Tel": "0",
+"EMail": ""
+                    }
+                },
+                {
+                    'method': 'POST',
+                    'path':baseUrl+'user2000w',
+                    'body':{
+"Name": "张晓伟",
+"CtfTp": "ID",
+"CtfId": "110105198405057136",
+"Gender": "0",
+"Birthday": "19840505",
+"Address": "北京市朝阳区机场北平里19楼3门5层4至",
+"Mobile": "2147483647",
+"Tel": "0",
+"EMail": ""
+                    }
+                }, 
+                {
+                    'method': 'POST',
+                    'path':baseUrl+'user2000w',
+                    'body':{
+"Name": "马景林",
+"CtfTp": "ID",
+"CtfId": "110105196007210079",
+"Gender": "0",
+"Birthday": "19600721",
+"Address": "北京市朝阳区延静里中街13楼2门503号",
+"Mobile": "2147483647",
+"Tel": "0",
+"EMail": ""
+                    }
+                }, 
+                {
+                    'method': 'POST',
+                    'path':baseUrl+'user2000w',
+                    'body':{
+"Name": "王世杰",
+"CtfTp": "ID",
+"CtfId": "110105195710200855",
+"Gender": "0",
+"Birthday": "19571020",
+"Address": "北京市东城区沙滩后街59号13排",
+"Mobile": "0",
+"Tel": "0",
+"EMail": ""
+                    }
+                },
+                {
+                    'method': 'POST',
+                    'path':baseUrl+'user2000w',
+                    'body':{
+"Name": "李涛",
+"CtfTp": "ID",
+"CtfId": "110105196102277511",
+"Gender": "0",
+"Birthday": "19610227",
+"Address": "北京市东城区胡家园3楼2单元302号",
+"Mobile": "0",
+"Tel": "0",
+"EMail": ""
+                    }
+                },                                                                
+            ]       
+        }
+    }).done(function() {
+        console.log("success");
+    })
+}
+
+
 
 
 
